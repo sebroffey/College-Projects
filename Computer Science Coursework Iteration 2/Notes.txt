@@ -1,0 +1,1 @@
+Spawned spersific unit function, moving freindly and enemy units across the lanscape, speed implmented

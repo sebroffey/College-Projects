@@ -1,0 +1,10 @@
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\bin\Debug\CollsionsCode.exe.config
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\bin\Debug\CollsionsCode.exe
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\bin\Debug\CollsionsCode.pdb
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.csprojAssemblyReference.cache
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.Form1.resources
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.Properties.Resources.resources
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.csproj.GenerateResource.cache
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.csproj.CoreCompileInputs.cache
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.exe
+C:\New 2\HSFCProjects\CollsionsCode\CollsionsCode\obj\Debug\CollsionsCode.pdb
