@@ -19,6 +19,11 @@ namespace Prototype1
         int[] arrayOfDistances = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         bool[] unitStates = new bool[] { false, false, false, false, false, false, false, false, false, false };
+
+        int totalMoney = 0;
+        int baseHealth = 100;
+        int enemyBaseHealth = 100;
+
         
 
         //Constructor defining point instances and array of unitLocations.
@@ -44,7 +49,8 @@ namespace Prototype1
         {
 
 
-            //Finding range between all unit locations in the unitLocations array and the unit location element index passed in as parameter.
+            //Finding range between all unit locations in the unitLocations array
+            //and the unit location element index passed in as parameter.
             int difference = 0;
             int[] collisionRanges;
             collisionRanges = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -60,7 +66,8 @@ namespace Prototype1
                 }
             }
 
-            //Returned array containing distances corrispondng to the unit location elements position in the array.
+            //Returned array containing distances corrispondng to the
+            //unit location elements position in the array.
             return collisionRanges ;
         }
 
@@ -85,6 +92,7 @@ namespace Prototype1
                     {
                         //attacker stops moving whilst attack occurs.
                         attacker.setValid(false);
+                        
                         if (victim.takeDamage(attacker.getUnitAttack(),this) == true)
                         {
                             //attacker needs to be able to contine moving acros landscape
@@ -212,39 +220,39 @@ namespace Prototype1
         {
             for (int index = 0; index < unitLocations.Length; index ++)
             {
-                if (unitLocations[index].X <= -25 | unitLocations[index].X >= 1460 )
+                if (unitLocations[index].X <= -14 | unitLocations[index].X >= 1514 )
                 {
                     switch(index)
                     {
                         case 0:
-                            U0.unitDeath(this);
+                            U0.unitDeath(this,1);                           
                             break;
                         case 1:
-                            U1.unitDeath(this);
+                            U1.unitDeath(this, 1);
                             break;
                         case 2:
-                            U2.unitDeath(this);
+                            U2.unitDeath(this, 1);
                             break;
                         case 3:
-                            U3.unitDeath(this);
+                            U3.unitDeath(this, 1);
                             break;
                         case 4:
-                            U4.unitDeath(this);
+                            U4.unitDeath(this, 1);
                             break;
                         case 5:
-                            U5.unitDeath(this);
+                            U5.unitDeath(this, 1);
                             break;
                         case 6:
-                            U6.unitDeath(this);
+                            U6.unitDeath(this, 1);
                             break;
                         case 7:
-                            U7.unitDeath(this);
+                            U7.unitDeath(this, 1);
                             break;
                         case 8:
-                            U8.unitDeath(this);
+                            U8.unitDeath(this, 1);
                             break;
                         case 9:
-                            U9.unitDeath(this);
+                            U9.unitDeath(this, 1);
                             break;
                     }
                 }
@@ -253,15 +261,6 @@ namespace Prototype1
 
 
         }
-
-
-
-
-
-
-
-
-
         //Set and Get methods
 
         public void setUnitState(bool state, int index)
@@ -302,30 +301,88 @@ namespace Prototype1
             return unitNumber;
         }
 
+        public void setTotalMoney(int money)
+        {
+            totalMoney = money;
+        }
+
+        public int getTotalMoney()
+        {
+            return totalMoney;
+        }
+        public void setBaseHealth(int health)
+        {
+            baseHealth = health;
+        }
+
+        public int getbaseHealth()
+        {
+            return baseHealth;
+        }
+        public void setEnemyBaseHealth(int health)
+        {
+            enemyBaseHealth = health;
+        }
+
+        public int getEnemybaseHealth()
+        {
+            return enemyBaseHealth;
+        }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+        public void restartInstance()
+        {
+            //Declaring vriables
+             unitNumber = 0;
         
+            arrayOfDistances = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+            unitStates = new bool[] { false, false, false, false, false, false, false, false, false, false };
+
+            totalMoney = 0;
+            baseHealth = 100;
+            enemyBaseHealth = 100;
 
 
+            //Constructor defining point instances and array of unitLocations.
 
+            Point point1 = new Point(0, 0);
+            Point point2 = new Point(0, 0);
+            Point point3 = new Point(0, 0);
+            Point point4 = new Point(0, 0);
+            Point point5 = new Point(0, 0);
+            Point point6 = new Point(0, 0);
+            Point point7 = new Point(0, 0);
+            Point point8 = new Point(0, 0);
+            Point point9 = new Point(0, 0);
+            Point point10 = new Point(0, 0);
+
+            unitLocations = new Point[] { point1, point2, point3, point4, point5, point6, point7, point8, point9, point10 };
+        }
 
 
 
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
 

@@ -49,13 +49,13 @@ namespace Prototype1
         public void generateRandom()
         {
             //Random generation of points within set bounds.
-            Point point1 = new Point(50, rnd.Next(240, 250));
+            Point point1 = new Point(50, 250);
             Point point2 = new Point(250, rnd.Next(200, 250));
             Point point3 = new Point(450, rnd.Next(200, 250));
             Point point4 = new Point(650, rnd.Next(200, 250));
             Point point5 = new Point(850, rnd.Next(200, 250));
             Point point6 = new Point(1050, rnd.Next(200, 250));
-            Point point7 = new Point(1450, rnd.Next(240, 250));
+            Point point7 = new Point(1450, 250);
             //New curvePoints created with new points
             curvePoints = new Point[] { point1, point2, point3, point4, point5, point6, point7 };
 

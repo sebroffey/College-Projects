@@ -63,6 +63,26 @@ namespace Prototype1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap EnemyHumvee {
+            get {
+                object obj = ResourceManager.GetObject("EnemyHumvee", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EnemyRocketTruck {
+            get {
+                object obj = ResourceManager.GetObject("EnemyRocketTruck", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap EnemyTankImage {
             get {
                 object obj = ResourceManager.GetObject("EnemyTankImage", resourceCulture);
@@ -73,9 +93,49 @@ namespace Prototype1.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap FreindlyHumvee {
+            get {
+                object obj = ResourceManager.GetObject("FreindlyHumvee", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap FreindlyRocketTruck {
+            get {
+                object obj = ResourceManager.GetObject("FreindlyRocketTruck", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap FreindlyTankImage {
             get {
                 object obj = ResourceManager.GetObject("FreindlyTankImage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GunCarFreindly {
+            get {
+                object obj = ResourceManager.GetObject("GunCarFreindly", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap GunCarFreindly___Copy {
+            get {
+                object obj = ResourceManager.GetObject("GunCarFreindly___Copy", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

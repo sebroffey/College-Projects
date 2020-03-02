@@ -9,13 +9,13 @@ namespace Prototype1
     public class FreindlyTank
     {
         //Attributes spercific to the type of unit
-        double unitSpeed = 1;
-        int unitHealth = 500;
+        double unitSpeed = 2;
+        int unitHealth = 10000;
         int unitHight = 21;
         int unitWidth = 62;
         int unitRange = -200;
-        int unitAttack = 5;
-       
+        int unitAttack = 100;
+        int money = 5000;
 
         //Gets
 
@@ -42,6 +42,10 @@ namespace Prototype1
         public int getUnitAttack()
         {
             return unitAttack;
+        }
+        public int getUnitMoney()
+        {
+            return money;
         }
     }
 }

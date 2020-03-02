@@ -16,18 +16,9 @@ namespace Prototype1
     public partial class Form1 : Form
     {
 
-        
-        //...................................................................................................................
-        //Iteration 2)
-        //Transfer relevent code across to more appropriate location in 'game model'
-        //This will create code easier to navigate and understand due to current mixed code function locations.
-        //...................................................................................................................
-        
-            
-            
-            
-            
-            //Declaring these variables so they can be used thoughout the form.
+        Random rnd = new Random();  //Creates instance of random type.
+        int spawnEnemy = 0;
+                                    //Declaring these variables so they can be used thoughout the form.
         private bool plot = false;
 
 
@@ -57,15 +48,43 @@ namespace Prototype1
             InitializeComponent();
             DoubleBuffered = true;
 
-            
-
             //Creates drawLine and causes it to be redrawn after every form refresh.
             this.Paint += new PaintEventHandler(drawLine);
 
             //Starts the timer which units will move in time.
             timer1.Start();
+            WinLoose.Visible = false;
 
+            //Causes all dictated paint values to be called
+            plot = true;
+            Curve1.generateRandom();
 
+            //reset all units by calling unit death on all unit instances.
+            U0.unitDeath(Game1, 0);
+            U1.unitDeath(Game1, 0);
+            U2.unitDeath(Game1, 0);
+            U3.unitDeath(Game1, 0);
+            U4.unitDeath(Game1, 0);
+            U5.unitDeath(Game1, 0);
+            U6.unitDeath(Game1, 0);
+            U7.unitDeath(Game1, 0);
+            U8.unitDeath(Game1, 0);
+            U9.unitDeath(Game1, 0);
+
+            Game1.restartInstance();
+
+            //refresh form
+            this.Refresh();
+    
+            label7.Visible = false;
+            label8.Visible = false;
+            Play.Visible = false;
+
+            TankHover.Visible = false;
+            GunCarHover.Visible = false;
+            RocketTruckHover.Visible = false;
+            HumveeHover.Visible = false;
+            label9.Visible = false;
 
         }
 
@@ -86,8 +105,7 @@ namespace Prototype1
             }
         }
 
-
-        //Landscape Button Click
+        //Reset Button Click
         private void button1_Click(object sender, EventArgs e)
         {
 
@@ -96,37 +114,29 @@ namespace Prototype1
             Curve1.generateRandom();
 
             //reset all units by calling unit death on all unit instances.
-            U0.unitDeath(Game1);
-            U1.unitDeath(Game1);
-            U2.unitDeath(Game1);
-            U3.unitDeath(Game1);
-            U4.unitDeath(Game1);
-            U5.unitDeath(Game1);
-            U6.unitDeath(Game1);
-            U7.unitDeath(Game1);
-            U8.unitDeath(Game1);
-            U9.unitDeath(Game1);
+            U0.unitDeath(Game1, 0);
+            U1.unitDeath(Game1, 0);
+            U2.unitDeath(Game1, 0);
+            U3.unitDeath(Game1, 0);
+            U4.unitDeath(Game1, 0);
+            U5.unitDeath(Game1, 0);
+            U6.unitDeath(Game1, 0);
+            U7.unitDeath(Game1, 0);
+            U8.unitDeath(Game1, 0);
+            U9.unitDeath(Game1, 0);
 
+            Game1.restartInstance();
+
+            timer1.Start();
             //refresh form
             this.Refresh();
-
-            
-            
-
         }
-
 
         //Run every time the timer ticks
         private void timer1_Tick(object sender, EventArgs e)
         {
-
-
+    
             Game1.checkUnitLocations(U0,U1,U2,U3,U4,U5,U6,U7,U8,U9);
-
-            
-
-
-
 
             //If the unit shows to move is valid
             if (U0.getvalid() == true)
@@ -200,13 +210,7 @@ namespace Prototype1
                 Game1.setNewUnitLocation(U9.getUnitArrayPosition(), U9.getUnitLocation());
             }
 
-
             //Collision detection per tick per unit starting with U0:
-
-
-
-
-
 
             //Unit 1
             Game1.collisionExecute(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9);
@@ -317,31 +321,74 @@ namespace Prototype1
             Game1.collisionExecute(U9, U6, U1, U2, U3, U4, U5, U0, U7, U8);
             Game1.collisionExecute(U9, U7, U1, U2, U3, U4, U5, U6, U0, U8);
             Game1.collisionExecute(U9, U8, U1, U2, U3, U4, U5, U6, U7, U0);
+
+            //Label1 = Funds label
+            Game1.setTotalMoney(Game1.getTotalMoney() + 12);
+            label1.Text = "Funds: " + Game1.getTotalMoney().ToString();
+
+            label2.Text = "Base Health: " + Game1.getbaseHealth();
+            label3.Text = "Enemy Base Health: " + Game1.getEnemybaseHealth();
+
+            if (Game1.getbaseHealth() <= 0)
+            {
+                WinLoose.Visible = true;
+                WinLoose.Text = "YOU LOOSE";
+                endGame();
+                //lose
+            }
+
+            if (Game1.getEnemybaseHealth() <= 0)
+            {
+                WinLoose.Visible = true;
+                WinLoose.Text = "YOU WIN";
+                endGame();
+                //win                
+            }
+
+            spawnEnemy = spawnEnemy + 1;
+
+            if (spawnEnemy > 200)
+            {
+                spawnUnitDefinition((rnd.Next(1, 4)) * 2);
+                
+                spawnEnemy = 0;
+            }
+
+            if (Game1.getTotalMoney() < 1500)
+            {
+                SpawnFreindlyHumvee.BackColor = Color.DarkGray;
+                SpawnRocketTruck.BackColor = Color.DarkGray;
+                SpawnTank.BackColor = Color.DarkGray;
+                SpawnGunCar.BackColor = Color.DarkGray;
+
+            }
+            else if (Game1.getTotalMoney() < 2500)
+            {
+                SpawnRocketTruck.BackColor = Color.DarkGray;
+                SpawnTank.BackColor = Color.DarkGray;
+                SpawnGunCar.BackColor = Color.DarkGray;
+
+                SpawnFreindlyHumvee.BackColor = Color.LightGray;
+            }
+            else if (Game1.getTotalMoney() < 5000)
+            {
+                
+                SpawnTank.BackColor = Color.DarkGray;
+
+                SpawnGunCar.BackColor = Color.LightGray;
+                SpawnRocketTruck.BackColor = Color.LightGray;
+                SpawnFreindlyHumvee.BackColor = Color.LightGray;
+            }
+            else
+            {
+                SpawnTank.BackColor = Color.LightGray;
+                SpawnGunCar.BackColor = Color.LightGray;
+                SpawnRocketTruck.BackColor = Color.LightGray;
+                SpawnFreindlyHumvee.BackColor = Color.LightGray;
+            }
+
+
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //ignore
         public void lanscapeBounds_Paint(object sender, PaintEventArgs e)
@@ -349,188 +396,100 @@ namespace Prototype1
             //ignore
         }
 
-        //Code ran when Spawn Unit is clicked
-        private void spawnUnitButton_Click(object sender, EventArgs e)
-        {
-
-            currentUnitNumber = Game1.nextAvaliableUnit();
-            if (currentUnitNumber == -1 | Game1.getUnitState(currentUnitNumber) == true)
-            {
-                //Max num of units spawned
-            }
-
-            else
-            {
-                //change array state of given unit in game model
-                Game1.setUnitState(true, currentUnitNumber);
-
-                //Switch hard coded calling of methods for each instance of unit called.
-                //
-                //
-                //Going to create procedure 'Spawn unit' in game model to remove code from form and also reduce repeated 
-                //code observed in spawnEnemyTank_Click() in Iteration 2.
-                //
-                //
-                //
-                switch (currentUnitNumber)
-
-                {
-                    case 0:
-                        U0.unitDefinition(1);
-                        U0.spawnUnit(Curve1.getPoints(), this);
-                        U0.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U0.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 1:
-                        U1.unitDefinition(1);
-                        U1.spawnUnit(Curve1.getPoints(), this);
-                        U1.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U1.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 2:
-                        U2.unitDefinition(1);
-                        U2.spawnUnit(Curve1.getPoints(), this);
-                        U2.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U2.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 3:
-                        U3.unitDefinition(1);
-                        U3.spawnUnit(Curve1.getPoints(), this);
-                        U3.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U3.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 4:
-                        U4.unitDefinition(1);
-                        U4.spawnUnit(Curve1.getPoints(), this);
-                        U4.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U4.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 5:
-                        U5.unitDefinition(1);
-                        U5.spawnUnit(Curve1.getPoints(), this);
-                        U5.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U5.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 6:
-                        U6.unitDefinition(1);
-                        U6.spawnUnit(Curve1.getPoints(), this);
-                        U6.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U6.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 7:
-                        U7.unitDefinition(1);
-                        U7.spawnUnit(Curve1.getPoints(), this);
-                        U7.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U7.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 8:
-                        U8.unitDefinition(1);
-                        U8.spawnUnit(Curve1.getPoints(), this);
-                        U8.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U8.getUnitLocation());
-                        this.Refresh();
-                        break;
-                    case 9:
-                        U9.unitDefinition(1);
-                        U9.spawnUnit(Curve1.getPoints(), this);
-                        U9.setUnitArrayPosition(currentUnitNumber);
-                        Game1.setNewUnitLocation(currentUnitNumber, U9.getUnitLocation());
-                        this.Refresh();
-                        break;
-
-                }
-
-                Game1.setUnitNumber(Game1.getUnitNumber() + 1);
-            }
-            
-
-            
-
-            
-            
-            
-            
-           
-        }
         
-        //Code ran when Spawn Unit is clicked
+        
+        //Code ran when Move Unit is clicked
         private void moveUnit_Click(object sender, EventArgs e)
         {
             //code ran within the unit class to set its movement statis to true if the unit is spawned
-            if (U0.getUnitSpawn() == true)
-            {
-                U0.setValid(true);
-            }
-            if (U1.getUnitSpawn() == true)
-            {
-                U1.setValid(true);
-            }
-            if (U2.getUnitSpawn() == true)
-            {
-                U2.setValid(true);
-            }
-            if (U3.getUnitSpawn() == true)
-            {
-                U3.setValid(true);
-            }
-            if (U4.getUnitSpawn() == true)
-            {
-                U4.setValid(true);
-            }
-            if (U5.getUnitSpawn() == true)
-            {
-                U5.setValid(true);
-            }
-            if (U6.getUnitSpawn() == true)
-            {
-                U6.setValid(true);
-            }
-            if (U7.getUnitSpawn() == true)
-            {
-                U7.setValid(true);
-            }
-            if (U8.getUnitSpawn() == true)
-            {
-                U8.setValid(true);
-            }
-            if (U9.getUnitSpawn() == true)
-            {
-                U9.setValid(true);
-            }
-
+            
         }
 
-        //Code ran when Spawn Unit is clicked
+        //Code ran when Stop Unit is clicked
         private void stopUnit_Click(object sender, EventArgs e)
         {
             //code ran within the unit class to set its movement statis to false
-            U0.setValid(false);
-            U1.setValid(false);
-            U2.setValid(false);
-            U3.setValid(false);
-            U4.setValid(false);
-            U5.setValid(false);
-            U6.setValid(false);
-            U7.setValid(false);
-            U8.setValid(false);
-            U9.setValid(false);
-            U0.setValid(false);
-
-            
+           
+           
+        }
 
 
+        //Code ran when Spawn Tank is clicked
+        private void spawnUnitButton_Click(object sender, EventArgs e)
+        {
+            if (Game1.getTotalMoney() >= 5000)
+            { 
+                spawnUnitDefinition(1);
+                SpawnTank.BackColor = Color.DarkGreen;
+            }
+            else
+            {
+                SpawnTank.BackColor = Color.Red;
+            }
+        }
+
+        private void SpawnEnemyTank_Click_1(object sender, EventArgs e)
+        {
+            spawnUnitDefinition(2);
+        }
+
+        //Code Ran when Spawn gun car is clicked
+        private void spawnEnemyTank_Click(object sender, EventArgs e)
+        {
+            if (Game1.getTotalMoney() >= 2500)
+            {
+                spawnUnitDefinition(3);
+                SpawnGunCar.BackColor = Color.DarkGreen;
+            }
+            else
+            {
+                SpawnGunCar.BackColor = Color.Red;
+            }
 
         }
 
-        private void spawnEnemyTank_Click(object sender, EventArgs e)
+        private void SpawnEnemyGunCar_Click(object sender, EventArgs e)
+        {
+
+            spawnUnitDefinition(4);
+        }
+        private void SpawnRocketTruck_Click(object sender, EventArgs e)
+        {
+            if (Game1.getTotalMoney() >= 2500)
+            { 
+                spawnUnitDefinition(5);
+                SpawnRocketTruck.BackColor = Color.DarkGreen;
+            }
+            else
+            {
+                SpawnRocketTruck.BackColor = Color.Red;
+            }
+
+        }
+        private void SpawnEnemyRocketTruck_Click(object sender, EventArgs e)
+        {
+            spawnUnitDefinition(6);
+        }
+        private void SpawnFreindlyHumvee_Click(object sender, EventArgs e)
+        {
+            if (Game1.getTotalMoney() >= 1500)
+            { 
+                spawnUnitDefinition(7);
+                SpawnFreindlyHumvee.BackColor = Color.DarkGreen;
+            }
+            else
+            {
+                SpawnFreindlyHumvee.BackColor = Color.Red;
+            }
+        }
+
+        //Spawn enemy humvee
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            spawnUnitDefinition(8);
+        }
+
+        private void spawnUnitDefinition(int unitNumber)
         {
 
             currentUnitNumber = Game1.nextAvaliableUnit();
@@ -538,97 +497,164 @@ namespace Prototype1
             {
                 //Max num of units spawned
             }
-
             else
             {
-
                 //Needs to be changed into procedure in game model class (Iteration 2)
                 Game1.setUnitState(true, currentUnitNumber);
                 switch (currentUnitNumber)
                 {
                     case 0:
-                        U0.unitDefinition(2);
-                        U0.spawnUnit(Curve1.getPoints(), this);
+                        U0.unitDefinition(unitNumber);
+                        U0.spawnUnit(Curve1.getPoints(), this, Game1);
                         U0.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U0.getUnitLocation());
                         this.Refresh();
                         break;
                     case 1:
-                        U1.unitDefinition(2);
-                        U1.spawnUnit(Curve1.getPoints(), this);
+                        U1.unitDefinition(unitNumber);
+                        U1.spawnUnit(Curve1.getPoints(), this, Game1);
                         U1.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U1.getUnitLocation());
                         this.Refresh();
                         break;
                     case 2:
-                        U2.unitDefinition(2);
-                        U2.spawnUnit(Curve1.getPoints(), this);
+                        U2.unitDefinition(unitNumber);
+                        U2.spawnUnit(Curve1.getPoints(), this, Game1);
                         U2.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U2.getUnitLocation());
                         this.Refresh();
                         break;
                     case 3:
-                        U3.unitDefinition(2);
-                        U3.spawnUnit(Curve1.getPoints(), this);
+                        U3.unitDefinition(unitNumber);
+                        U3.spawnUnit(Curve1.getPoints(), this, Game1);
                         U3.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U3.getUnitLocation());
                         this.Refresh();
                         break;
                     case 4:
-                        U4.unitDefinition(2);
-                        U4.spawnUnit(Curve1.getPoints(), this);
+                        U4.unitDefinition(unitNumber);
+                        U4.spawnUnit(Curve1.getPoints(), this, Game1);
                         U4.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U4.getUnitLocation());
                         this.Refresh();
                         break;
                     case 5:
-                        U5.unitDefinition(2);
-                        U5.spawnUnit(Curve1.getPoints(), this);
+                        U5.unitDefinition(unitNumber);
+                        U5.spawnUnit(Curve1.getPoints(), this, Game1);
                         U5.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U5.getUnitLocation());
                         this.Refresh();
                         break;
                     case 6:
-                        U6.unitDefinition(2);
-                        U6.spawnUnit(Curve1.getPoints(), this);
+                        U6.unitDefinition(unitNumber);
+                        U6.spawnUnit(Curve1.getPoints(), this, Game1);
                         U6.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U6.getUnitLocation());
                         this.Refresh();
                         break;
                     case 7:
-                        U7.unitDefinition(2);
-                        U7.spawnUnit(Curve1.getPoints(), this);
+                        U7.unitDefinition(unitNumber);
+                        U7.spawnUnit(Curve1.getPoints(), this, Game1);
                         U7.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U7.getUnitLocation());
                         this.Refresh();
                         break;
                     case 8:
-                        U8.unitDefinition(2);
-                        U8.spawnUnit(Curve1.getPoints(), this);
+                        U8.unitDefinition(unitNumber);
+                        U8.spawnUnit(Curve1.getPoints(), this, Game1);
                         U8.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U8.getUnitLocation());
                         this.Refresh();
                         break;
                     case 9:
-                        U9.unitDefinition(2);
-                        U9.spawnUnit(Curve1.getPoints(), this);
+                        U9.unitDefinition(unitNumber);
+                        U9.spawnUnit(Curve1.getPoints(), this, Game1);
                         U9.setUnitArrayPosition(currentUnitNumber);
                         Game1.setNewUnitLocation(currentUnitNumber, U9.getUnitLocation());
                         this.Refresh();
                         break;
-
                 }
-
                 Game1.setUnitNumber(Game1.getUnitNumber() + 1);
-
             }
 
-            
+        }
 
-            
+       private void endGame()
+        {
+            timer1.Stop();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            //Ignore
+        }
+
+        private void Background_Paint(object sender, PaintEventArgs e)
+        {
+            //ignore
+        }
+
+
+        //Pause Button
+        private void button1_Click_2(object sender, EventArgs e)
+        {
+            timer1.Stop();
+
+            label6.Text = "Objective: Use funds to purchase units under your command to counter enemy forces.\n\nDestroy the enemy base by sending units to the far end of the landscape, this will\ndecrease the enemy base health. Once it reaches 0, the mission is sucsessful.\n\nDo not allow enemy units to reach your base this will result in the end of the mission if\nyour base health becomes 0.";
+           label7.Visible = true;
+            label8.Visible = true;
+            Play.Visible = true;
+            label9.Visible = true;
+        }
+   
+        private void label5_Click(object sender, EventArgs e)
+        {
+            //ignore
+        }
+
+        private void Play_Click(object sender, EventArgs e)
+        {
+            timer1.Start();
+
+            label6.Text = "";
+            label7.Visible = false;
+            label8.Visible = false;
+            Play.Visible = false;
+            label9.Visible = false;
+        }
+
+        private void TankHover_Click(object sender, EventArgs e)
+        {
+            label6.Text = "The Tank\n\nThe Tank is the most valued military vehicle.\nIt has the most health for any unit, and a strong attack.\n\nHowever, thier price can have an impact on their situational effectivness.";
+        }
+
+        private void GunCarHover_Click(object sender, EventArgs e)
+        {
+            label6.Text = "The GunCar\n\nThe GunCar is a strategic vehicle which can engage enemies at long distances.\nThese units are deadly in numbers, as they can take down enemies before they are even in range of attack.\n\nThese units have very little health.";
+        }
+       
+
+        private void RocketTruckHover_Click(object sender, EventArgs e)
+        {
+            label6.Text = "The Rocket Truck\n\nDue to the Tank dominance on the battle feild, the Rocket Truck was developed.\nRocket Trucks can eliminate a Tank although they are cheaper to manurfacture.\n\nThey have extreamly high attack capabilities but are fragile.";
+        }
+
+        private void HumveeHover_Click(object sender, EventArgs e)
+        {
+            label6.Text = "The Humvee\n\nThe most abundent military unit due to its ease of mobilization.\nDecent attack and range, used best in numbers against weaker opponents.";
+        }
+
+
+
+        //ignore
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            label6.Text = "";
+        }
+         //ignore
+        private void WinLoose_Click(object sender, EventArgs e)
+        {
 
         }
     }
-    
-
 }
